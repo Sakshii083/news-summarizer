@@ -1,11 +1,9 @@
 from transformers import pipeline
 
-summarizer = pipeline(
-    "text2text-generation",
-    model="google/flan-t5-base"
-)
-
 def ai_summarize(text):
-    prompt = "Summarize this article: " + text
-    result = summarizer(prompt, max_length=150)
-    return result[0]['generated_text']
+    summarizer = pipeline(
+        task="summarization",
+        model="facebook/bart-large-cnn"
+    )
+    result = summarizer(text, max_length=130, min_length=30, do_sample=False)
+    return result[0]['summary_text']
